@@ -351,9 +351,10 @@
       const reference = `${currentType}-${crypto.randomUUID()}`;
       const url = new URL(CONFIG.payLinks[currentType]);
       url.searchParams.set("client_reference_id", reference);
-      // abre já o separador (síncrono, para o browser não bloquear o popup)
-      const win = window.open(url.toString(), "_blank", "noopener");
-      if (!win) window.location.href = url.toString(); // fallback se bloqueado
+      // abre num novo separador (via <a>, que não devolve null como window.open com noopener)
+      const a = document.createElement("a");
+      a.href = url.toString(); a.target = "_blank"; a.rel = "noopener noreferrer";
+      document.body.appendChild(a); a.click(); a.remove();
       try { await saveLead({ type: currentType, intent: "pay_click", reference }); } catch (_) {}
       btn.disabled = false;
     });
