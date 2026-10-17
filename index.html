@@ -213,12 +213,39 @@
       .hero .bg { animation-duration: 24s; filter: none; }
       .hero { min-height: 100svh; }
       .hero h1 { font-size: clamp(64px, 19vw, 120px); }
-      .overlay { backdrop-filter: none; background: rgba(0,0,0,.82); }
-      .card { padding: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-      .card h3 { font-size: clamp(44px, 14vw, 64px); }
-      .card .cta { align-self: stretch; }
-      .includes { grid-template-columns: 1fr 1fr; }
-      .btn { padding: 18px; }
+      .entries { padding: 56px 16px 40px; }
+      .entries h2 { font-size: clamp(28px, 9vw, 40px); }
+      .intro { margin: 14px 0 28px; font-size: 15px; }
+      .cards { gap: 12px; }
+      /* cards compactos no telemóvel */
+      .card { padding: 20px; gap: 14px; border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+      .card h3 { font-size: clamp(40px, 12vw, 56px); }
+      .card .meta-list { gap: 8px; padding-left: 12px; }
+      .card .meta-list li { font-size: 12px; }
+      .card .blurb { font-size: 13px; padding: 12px 14px; }
+      .card .cta { align-self: stretch; padding: 15px 18px; }
+      /* modal como bottom-sheet com scroll */
+      .overlay { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(0,0,0,.82); }
+      .sheet { max-height: 92svh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 20px 18px calc(20px + env(safe-area-inset-bottom)); gap: 0; }
+      .sheet::before { content: ""; display: block; width: 40px; height: 4px; border-radius: 2px; background: rgba(241,240,234,.3); margin: -6px auto 14px; }
+      .sheet-head { margin-bottom: 14px; }
+      .sheet h3 { font-size: clamp(36px, 11vw, 48px); margin-top: 8px; }
+      .sheet .tag { padding: 5px 9px; }
+      .x { width: 36px; height: 36px; }
+      .meta { gap: 8px; margin-bottom: 14px; padding-left: 12px; }
+      .meta span { font-size: 12px; }
+      .founder { font-size: 13px; padding: 12px 14px; margin-bottom: 14px; }
+      .includes { grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 16px; padding-bottom: 16px; }
+      .includes li { font-size: 11px; letter-spacing: .03em; }
+      .btn { padding: 16px 18px; }
+      .btn-solid { margin-top: 14px; }
+      .btn-line { margin-top: 8px; }
+      .fine { margin-top: 12px; font-size: 11px; }
+      .field input { font-size: 16px; padding: 14px 0; } /* 16px evita zoom no iOS */
+    }
+    @media (max-width: 380px) {
+      .includes { grid-template-columns: 1fr; }
+      .card h3 { font-size: 38px; }
     }
   </style>
 </head>
