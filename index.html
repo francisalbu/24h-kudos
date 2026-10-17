@@ -109,14 +109,17 @@
     }
 
     /* ============ ENTRIES ============ */
-    .entries { position: relative; isolation: isolate; overflow: hidden; padding: clamp(80px, 12vw, 160px) 20px clamp(64px, 8vw, 120px); }
-    .entries .ebg {
-      position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
-      filter: saturate(.8) brightness(.55); transform: scale(1.04);
-    }
+    .entries { position: relative; isolation: isolate; overflow: hidden; padding: clamp(80px, 12vw, 160px) 20px clamp(64px, 8vw, 120px); background: var(--ink); }
     .entries::before {
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(180deg, var(--ink) 0%, rgba(11,13,11,.35) 22%, rgba(11,13,11,.35) 78%, var(--ink) 100%);
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(60% 50% at 20% 20%, rgba(184,255,92,.10) 0%, transparent 70%),
+        radial-gradient(50% 45% at 85% 80%, rgba(241,240,234,.07) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .entries::after {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .18; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     }
     .entries-in { max-width: 1100px; margin: 0 auto; }
     .entries h2 { font-weight: 800; text-transform: uppercase; font-size: clamp(30px, 4.6vw, 58px); letter-spacing: -.03em; line-height: .95; max-width: 20ch; color: var(--bone); }
@@ -149,12 +152,8 @@
       background: var(--bone); color: var(--ink); border-radius: 999px; padding: 15px 22px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
       transition: background .25s, transform .25s;
     }
-    .card .cta .pr { font-size: 15px; letter-spacing: 0; font-weight: 800; }
+    .card .cta .pr { font-size: 16px; letter-spacing: 0; font-weight: 400; font-variant-numeric: tabular-nums; }
     .card:hover .cta { background: var(--volt); }
-    .avail { margin-top: auto; padding-top: 6px; display: flex; align-items: center; gap: 16px; }
-    .bar { flex: 1; height: 2px; background: rgba(241,240,234,.22); border-radius: 2px; overflow: hidden; }
-    .bar i { display: block; height: 100%; width: 0%; background: var(--volt); transition: width 1.2s var(--ease); }
-    .avail .count { font-variant-numeric: tabular-nums; color: rgba(241,240,234,.85); white-space: nowrap; }
 
     .note { margin-top: 24px; color: var(--mute); font-size: 13px; line-height: 1.5; text-align: center; }
 
@@ -219,7 +218,6 @@
       .card { padding: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
       .card h3 { font-size: clamp(44px, 14vw, 64px); }
       .card .cta { align-self: stretch; }
-      .entries .ebg { transform: none; }
       .includes { grid-template-columns: 1fr 1fr; }
       .btn { padding: 18px; }
     }
@@ -245,7 +243,6 @@
 
   <!-- ENTRIES -->
   <section class="entries" id="inscricoes">
-    <img class="ebg" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/corrida.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9jb3JyaWRhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTIyNjc2NjksImV4cCI6MTgyMzgwMzY2OX0.8kDDYNgYwCTYAQsTacMcq0_h_4_BpbzocGeGOxXzVorTrF5N8uqaDMl8s_wCmffYQWrZifHb2bnpfxfbSHcSZg" alt="" loading="lazy" decoding="async" />
     <div class="entries-in">
       <h2>Até chegares ao teu limite.</h2>
       <p class="intro">24 horas em formato backyard: 6,7 km a cada hora, em Lisboa. Garante já o teu lugar como <b>fundador</b> ou deixa o e-mail para te darmos mais informações.</p>
@@ -259,9 +256,8 @@
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>24 horas · 6,7 km por volta</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>1 atleta</li>
           </ul>
-          <p class="blurb">Corres sozinho contra o relógio. Kit do atleta, cronometragem, seguro e livestream incluídos.</p>
+          <p class="blurb">Corres sozinho contra o relógio.</p>
           <span class="cta"><span>Reservar</span><span class="pr">60€</span></span>
-          <div class="avail cap"><div class="bar"><i data-bar="individual"></i></div><span class="count" data-count="individual">— / 10</span></div>
         </button>
 
         <button class="card" data-type="team">
@@ -272,9 +268,8 @@
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>24 horas · 6,7 km por volta</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20a7 7 0 0 1 14 0M15 20a5 5 0 0 1 7 -4"/></svg>4 atletas em estafeta</li>
           </ul>
-          <p class="blurb">Alternam voltas entre vocês ao longo das 24 horas. Kit para os 4, cronometragem, seguro e livestream.</p>
+          <p class="blurb">Alternam voltas entre vocês ao longo das 24 horas.</p>
           <span class="cta"><span>Reservar</span><span class="pr">170€</span></span>
-          <div class="avail cap"><div class="bar"><i data-bar="team"></i></div><span class="count" data-count="team">— / 5</span></div>
         </button>
       </div>
 
@@ -401,17 +396,10 @@
 
     document.querySelectorAll(".card").forEach((b) => b.addEventListener("click", () => openSheet(b.dataset.type)));
 
-    // Lugares disponíveis (view pública `availability`)
+    // Lugares disponíveis (view pública `availability`) → texto do modal
     (async () => {
       const { data } = await supabase.from("availability").select("type,remaining,total");
-      const rows = data || [{ type: "individual", remaining: 10, total: 10 }, { type: "team", remaining: 5, total: 5 }];
-      for (const r of rows) {
-        const taken = Math.max(0, r.total - r.remaining);
-        const bar = document.querySelector(`[data-bar="${r.type}"]`), count = document.querySelector(`[data-count="${r.type}"]`);
-        if (count) count.textContent = `${String(taken).padStart(2, "0")} / ${String(r.total).padStart(2, "0")}`;
-        if (bar) requestAnimationFrame(() => (bar.style.width = `${Math.max(3, (taken / r.total) * 100)}%`));
-        CONFIG.slots[r.type] = r.remaining > 0 ? `Restam ${r.remaining} de ${r.total} lugares.` : "Esgotado.";
-      }
+      for (const r of data || []) CONFIG.slots[r.type] = r.remaining > 0 ? `Restam ${r.remaining} de ${r.total} lugares.` : "Esgotado.";
     })();
     $("#close").addEventListener("click", closeSheet);
     $("#done-close").addEventListener("click", closeSheet);
