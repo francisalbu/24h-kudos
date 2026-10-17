@@ -7,7 +7,7 @@
   <meta name="description" content="Kudos. Uma corrida de 24 horas em formato backyard, em Lisboa. 6,7 km a cada hora até chegares ao teu limite. Solo 60€ · Equipa de 4 170€." />
   <meta property="og:title" content="Kudos — Uma volta por hora" />
   <meta property="og:description" content="24 horas. 6,7 km a cada hora. Até chegares ao teu limite." />
-  <meta property="og:image" content="https://24kudos.com/hero-ponte.jpg" />
+  <meta property="og:image" content="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/corrida.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9jb3JyaWRhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTIyNjc2NjksImV4cCI6MTgyMzgwMzY2OX0.8kDDYNgYwCTYAQsTacMcq0_h_4_BpbzocGeGOxXzVorTrF5N8uqaDMl8s_wCmffYQWrZifHb2bnpfxfbSHcSZg" />
   <meta property="og:url" content="https://24kudos.com/" />
   <link rel="canonical" href="https://24kudos.com/" />
   <meta name="theme-color" content="#0b0d0b" />
@@ -85,6 +85,9 @@
     .hero h1 span { display: block; }
     .hero h1 .ital { font-style: italic; }
     .hero-text { text-align: center; }
+    .logo { position: absolute; top: calc(20px + env(safe-area-inset-top)); left: 20px; z-index: 1; width: clamp(56px, 7vw, 88px); height: auto; display: block; }
+    @media (min-width: 900px) { .logo { left: 40px; top: calc(28px + env(safe-area-inset-top)); } }
+    footer .flogo { width: 36px; height: auto; display: block; }
     .hero .date { margin-top: 28px; color: var(--bone); font-size: 12px; letter-spacing: .22em; }
 
     /* corner labels */
@@ -183,7 +186,8 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img src="hero-ponte.jpg" alt="" fetchpriority="high" />
+    <img src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/corrida.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9jb3JyaWRhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTIyNjc2NjksImV4cCI6MTgyMzgwMzY2OX0.8kDDYNgYwCTYAQsTacMcq0_h_4_BpbzocGeGOxXzVorTrF5N8uqaDMl8s_wCmffYQWrZifHb2bnpfxfbSHcSZg" alt="" fetchpriority="high" />
+    <a class="logo-link" href="/" aria-label="Kudos"><img class="logo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" /></a>
     <div class="sweep"></div>
 
     <div class="hero-text">
@@ -223,7 +227,7 @@
   </section>
 
   <footer class="cap">
-    <span>Kudos</span>
+    <img class="flogo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" />
     <a href="mailto:ola@24kudos.com">ola@24kudos.com</a>
   </footer>
 
