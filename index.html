@@ -11,6 +11,8 @@
   <meta property="og:url" content="https://24kudos.com/" />
   <link rel="canonical" href="https://24kudos.com/" />
   <meta name="theme-color" content="#0b0d0b" />
+  <link rel="preconnect" href="https://exxqaluncgpzbopeikdh.supabase.co" crossorigin />
+  <link rel="preconnect" href="https://esm.sh" crossorigin />
 
   <style>
     @font-face { font-family: "Codec Pro"; src: url("fonts/CodecPro-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
@@ -45,7 +47,7 @@
       display: grid; place-items: center;
       padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
     }
-    .hero img {
+    .hero .bg {
       position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; object-position: 50% 60%; z-index: -2;
       filter: saturate(.9) contrast(1.05);
       animation: drift 14s ease-in-out infinite alternate;
@@ -85,9 +87,10 @@
     .hero h1 span { display: block; }
     .hero h1 .ital { font-style: italic; }
     .hero-text { text-align: center; }
-    .logo { position: absolute; top: calc(20px + env(safe-area-inset-top)); left: 20px; z-index: 1; width: clamp(56px, 7vw, 88px); height: auto; display: block; }
-    @media (min-width: 900px) { .logo { left: 40px; top: calc(28px + env(safe-area-inset-top)); } }
-    footer .flogo { width: 36px; height: auto; display: block; }
+    .logo-link { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 16px; z-index: 2; line-height: 0; }
+    .logo { width: clamp(64px, 9vw, 110px); height: auto; display: block; mix-blend-mode: multiply; }
+    @media (min-width: 900px) { .logo-link { left: 40px; top: calc(28px + env(safe-area-inset-top)); } }
+    footer .flogo { width: 44px; height: auto; display: block; mix-blend-mode: screen; filter: brightness(1.1); }
     .hero .date { margin-top: 28px; color: var(--bone); font-size: 12px; letter-spacing: .22em; }
 
     /* corner labels */
@@ -179,15 +182,27 @@
     .done .check svg { width: 26px; height: 26px; }
     .done p { color: #6b6e68; margin: 10px 0 22px; }
 
-    @media (prefers-reduced-motion: reduce) { .hero::after, .hero .sweep { display: none; } .hero img { animation-duration: 40s; } }
+    @media (prefers-reduced-motion: reduce) { .hero::after, .hero .sweep { display: none; } .hero .bg { animation-duration: 40s; } }
+    /* Mobile: menos efeitos (GPU/bateria) */
+    @media (max-width: 720px) {
+      .hero::after, .hero .sweep { display: none; }
+      .hero .bg { animation-duration: 24s; filter: none; }
+      .hero { min-height: 100svh; }
+      .hero h1 { font-size: clamp(64px, 19vw, 120px); }
+      .overlay { backdrop-filter: none; background: rgba(11,13,11,.82); }
+      .card { min-height: 200px; }
+      .card h3 { font-size: clamp(48px, 16vw, 72px); }
+      .includes { grid-template-columns: 1fr 1fr; }
+      .btn { padding: 18px; }
+    }
   </style>
 </head>
 <body>
 
   <!-- HERO -->
   <section class="hero">
-    <img src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/corrida.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9jb3JyaWRhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTIyNjc2NjksImV4cCI6MTgyMzgwMzY2OX0.8kDDYNgYwCTYAQsTacMcq0_h_4_BpbzocGeGOxXzVorTrF5N8uqaDMl8s_wCmffYQWrZifHb2bnpfxfbSHcSZg" alt="" fetchpriority="high" />
-    <a class="logo-link" href="/" aria-label="Kudos"><img class="logo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" /></a>
+    <img class="bg" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/corrida.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9jb3JyaWRhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTIyNjc2NjksImV4cCI6MTgyMzgwMzY2OX0.8kDDYNgYwCTYAQsTacMcq0_h_4_BpbzocGeGOxXzVorTrF5N8uqaDMl8s_wCmffYQWrZifHb2bnpfxfbSHcSZg" alt="" fetchpriority="high" decoding="async" />
+    <a class="logo-link" href="/" aria-label="Kudos"><img class="logo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" width="2000" height="2000" decoding="async" /></a>
     <div class="sweep"></div>
 
     <div class="hero-text">
@@ -227,7 +242,7 @@
   </section>
 
   <footer class="cap">
-    <img class="flogo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" />
+    <img class="flogo" src="https://exxqaluncgpzbopeikdh.supabase.co/storage/v1/object/sign/files/main_logo.png?token=eyJraWQiOiI1MmUzNDAxMS1jNDczLTRmMjctOWE1ZS03N2ZmNjhhMzQ3NTQiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJmaWxlcy9tYWluX2xvZ28ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MjI2NzcyMSwiZXhwIjoxODIzODAzNzIxfQ.tGOzuZusZXhO9L4i5nuAiIabVHLCrtM39W05l1qwUhWkghi07tkSEjzWPO4I3wjDIUuJzQr8Qy1rBNuf3lRMyg" alt="Kudos" width="2000" height="2000" loading="lazy" decoding="async" />
     <a href="mailto:ola@24kudos.com">ola@24kudos.com</a>
   </footer>
 
@@ -301,7 +316,7 @@
     const supabase = createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey, { auth: { persistSession: false } });
 
     // Parallax suave no scroll
-    const heroImg = document.querySelector(".hero img");
+    const heroImg = document.querySelector(".hero .bg");
     window.addEventListener("scroll", () => heroImg.style.setProperty("--py", (window.scrollY * 0.25) + "px"), { passive: true });
 
     const $ = (s) => document.querySelector(s);
