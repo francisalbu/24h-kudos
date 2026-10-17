@@ -123,7 +123,6 @@
     .card h3 { margin-top: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: -.03em; line-height: .9; font-size: clamp(56px, 10vw, 104px); }
     .card .bottom { margin-top: auto; padding-top: 24px; display: flex; align-items: baseline; gap: 12px; }
     .card .price { font-size: clamp(30px, 4vw, 40px); letter-spacing: -.02em; line-height: 1; color: var(--volt); }
-    .card .was { font-size: 15px; color: var(--mute); }
 
     .note { margin-top: 20px; color: var(--mute); font-size: 13px; line-height: 1.5; }
 
@@ -204,20 +203,18 @@
 
     <div class="cards">
       <button class="card" data-type="individual">
-        <div class="card-top"><span class="cap dim">Individual</span><span class="cap slots">10 lugares</span></div>
+        <div class="card-top"><span class="cap dim">Individual</span><span class="cap slots">10 inscrições</span></div>
         <h3>Solo</h3>
         <div class="bottom">
           <span class="price">60€</span>
-          <s class="was">70€</s>
         </div>
       </button>
 
       <button class="card" data-type="team">
-        <div class="card-top"><span class="cap dim">4 pessoas</span><span class="cap slots">5 equipas</span></div>
+        <div class="card-top"><span class="cap dim">4 pessoas</span><span class="cap slots">5 inscrições</span></div>
         <h3>Equipa</h3>
         <div class="bottom">
           <span class="price">170€</span>
-          <s class="was">240€</s>
         </div>
       </button>
     </div>
@@ -293,7 +290,7 @@
       prices: { individual: "60€", team: "170€" },
       titles: { individual: "Solo", team: "Equipa" },
       kickers: { individual: "Individual", team: "4 pessoas" },
-      slots: { individual: "Apenas 10 lugares.", team: "Apenas 5 equipas." },
+      slots: { individual: "Apenas 10 inscrições.", team: "Apenas 5 inscrições de equipa." },
     };
     // ============================
 
@@ -352,10 +349,13 @@
     $("#btn-pay").addEventListener("click", async () => {
       const btn = $("#btn-pay"); btn.disabled = true;
       const reference = `${currentType}-${crypto.randomUUID()}`;
-      try { await saveLead({ type: currentType, intent: "pay_click", reference }); } catch (_) {}
       const url = new URL(CONFIG.payLinks[currentType]);
       url.searchParams.set("client_reference_id", reference);
-      window.location.href = url.toString();
+      // abre já o separador (síncrono, para o browser não bloquear o popup)
+      const win = window.open(url.toString(), "_blank", "noopener");
+      if (!win) window.location.href = url.toString(); // fallback se bloqueado
+      try { await saveLead({ type: currentType, intent: "pay_click", reference }); } catch (_) {}
+      btn.disabled = false;
     });
 
     // SÓ QUERO SER AVISADO → mostra o e-mail
