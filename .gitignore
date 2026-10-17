@@ -1,0 +1,12 @@
+# Nunca commitar segredos
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
+.DS_Store
+corrida.png
+node_modules/
+
+# Fontes trial (licença) — mantém só localmente
+fonts/*trial*

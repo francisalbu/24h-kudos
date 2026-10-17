@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Kudos — Uma volta por hora</title>
+  <meta name="description" content="Kudos. Uma corrida de 24 horas em formato backyard, em Lisboa. 6,7 km a cada hora até chegares ao teu limite. Solo 60€ · Equipa de 4 170€." />
+  <meta property="og:title" content="Kudos — Uma volta por hora" />
+  <meta property="og:description" content="24 horas. 6,7 km a cada hora. Até chegares ao teu limite." />
+  <meta property="og:image" content="https://24kudos.com/hero-ponte.jpg" />
+  <meta property="og:url" content="https://24kudos.com/" />
+  <link rel="canonical" href="https://24kudos.com/" />
+  <meta name="theme-color" content="#0b0d0b" />
+
+  <style>
+    @font-face { font-family: "Codec Pro"; src: url("fonts/CodecPro-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Codec Pro"; src: url("fonts/CodecPro-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+    /* Pesos bold vindos da Codec Warm (mesma família, desenho idêntico nestes pesos) */
+    @font-face { font-family: "Codec Pro"; src: url("fonts/Codec-Warm-ExtraBold-trial.ttf") format("truetype"); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Codec Pro"; src: url("fonts/Codec-Warm-ExtraBold-Italic-trial.ttf") format("truetype"); font-weight: 800; font-style: italic; font-display: swap; }
+    @font-face { font-family: "Codec Pro"; src: url("fonts/Codec-Warm-Heavy-trial.ttf") format("truetype"); font-weight: 900; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Codec Pro"; src: url("fonts/Codec-Warm-Heavy-Italic-trial.ttf") format("truetype"); font-weight: 900; font-style: italic; font-display: swap; }
+
+    :root {
+      --ink: #0b0d0b;
+      --volt: #b8ff5c;
+      --bone: #f1f0ea;
+      --mute: rgba(241,240,234,.62);
+      --ease: cubic-bezier(.2,.7,.2,1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: "Codec Pro", "Helvetica Neue", Arial, sans-serif; font-weight: 400;
+      background: var(--ink); color: var(--bone); -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: var(--volt); color: var(--ink); }
+
+    .cap { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; line-height: 1.4; }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate;
+      display: grid; place-items: center;
+      padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
+    }
+    .hero img {
+      position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; object-position: 50% 60%; z-index: -2;
+      filter: saturate(.9) contrast(1.05);
+      animation: drift 14s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes drift {
+      0%   { transform: translate3d(2%, calc(var(--py, 0px) + 1%), 0) scale(1); }
+      100% { transform: translate3d(-2.5%, calc(var(--py, 0px) - 1%), 0) scale(1.1); }
+    }
+    /* grão animado por cima da foto */
+    .hero::after {
+      content: ""; position: absolute; inset: -50%; z-index: -1; pointer-events: none; opacity: .32; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      animation: grain .35s steps(3) infinite;
+    }
+    @keyframes grain {
+      0% { transform: translate(0,0); } 20% { transform: translate(-6%,4%); } 40% { transform: translate(5%,-7%); }
+      60% { transform: translate(-3%,-3%); } 80% { transform: translate(7%,6%); } 100% { transform: translate(-5%,2%); }
+    }
+    /* varrimento de luz lento */
+    .hero .sweep {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none; mix-blend-mode: soft-light;
+      background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+      background-size: 300% 100%; animation: sweep 9s ease-in-out infinite;
+    }
+    @keyframes sweep { 0% { background-position: 120% 0; } 100% { background-position: -120% 0; } }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(11,13,11,.35) 0%, rgba(11,13,11,0) 30%, rgba(11,13,11,0) 60%, rgba(11,13,11,.85) 100%);
+    }
+    .hero h1 {
+      font-weight: 800; text-transform: uppercase; text-align: center; color: var(--volt);
+      font-size: clamp(60px, 15vw, 210px); line-height: .84; letter-spacing: -.035em;
+      mix-blend-mode: screen;
+    }
+    .hero h1 span { display: block; }
+    .hero h1 .ital { font-style: italic; }
+    .hero-text { text-align: center; }
+    .hero .date { margin-top: 28px; color: var(--bone); font-size: 12px; letter-spacing: .22em; }
+
+    /* corner labels */
+    .corner { position: absolute; color: var(--bone); max-width: 140px; }
+    .corner.tl { top: calc(22px + env(safe-area-inset-top)); left: 20px; }
+    .corner.tc { top: calc(22px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+    .corner.tr { top: calc(22px + env(safe-area-inset-top)); right: 20px; text-align: right; }
+    .corner.ml { top: 50%; left: 20px; transform: translateY(-50%); }
+    .corner.mr { top: 50%; right: 20px; transform: translateY(-50%); text-align: right; }
+    .corner.bc { bottom: calc(26px + env(safe-area-inset-bottom)); left: 20px; right: 20px; text-align: center; max-width: none; }
+    .corner.bc .cap { color: var(--bone); }
+    .corner .dim { color: var(--mute); }
+    @media (max-width: 640px) { .corner.ml, .corner.mr { display: none; } }
+    @media (min-width: 900px) {
+      .corner.tl, .corner.ml { left: 40px; } .corner.tr, .corner.mr { right: 40px; }
+    }
+
+    /* ============ ENTRIES ============ */
+    .entries { padding: clamp(64px, 10vw, 140px) 20px 24px; max-width: 1100px; margin: 0 auto; }
+    .entries h2 { font-weight: 400; font-size: clamp(26px, 3.6vw, 44px); letter-spacing: -.02em; line-height: 1.15; max-width: 26ch; }
+    .intro { margin: 16px 0 32px; color: var(--mute); font-size: clamp(15px, 1.6vw, 18px); line-height: 1.5; max-width: 52ch; }
+    .intro b { color: var(--volt); font-weight: 400; }
+    .dim { color: var(--mute); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; }
+    .slots { color: var(--volt); }
+
+    .cards { display: grid; gap: 12px; }
+    @media (min-width: 720px) { .cards { grid-template-columns: 1fr 1fr; gap: 16px; } }
+    .card {
+      border-radius: 8px; background: #121412; border: 1px solid rgba(241,240,234,.1); color: var(--bone);
+      padding: 24px; min-height: 240px; display: flex; flex-direction: column; text-align: left; font: inherit; cursor: pointer;
+      transition: border-color .3s var(--ease), background .3s var(--ease); -webkit-tap-highlight-color: transparent;
+    }
+    @media (min-width: 720px) { .card { padding: 32px; min-height: 340px; } }
+    .card:hover, .card:focus-visible { border-color: var(--volt); background: #151815; outline: none; }
+    .card h3 { margin-top: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: -.03em; line-height: .9; font-size: clamp(56px, 10vw, 104px); }
+    .card .bottom { margin-top: auto; padding-top: 24px; display: flex; align-items: baseline; gap: 12px; }
+    .card .price { font-size: clamp(30px, 4vw, 40px); letter-spacing: -.02em; line-height: 1; color: var(--volt); }
+    .card .was { font-size: 15px; color: var(--mute); }
+
+    .note { margin-top: 20px; color: var(--mute); font-size: 13px; line-height: 1.5; }
+
+    footer { padding: 32px 20px calc(24px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; color: var(--mute); max-width: 1100px; margin: 0 auto; }
+    footer a { color: var(--mute); text-decoration: none; }
+
+    /* ============ MODAL ============ */
+    .overlay { position: fixed; inset: 0; z-index: 50; background: rgba(11,13,11,.7); backdrop-filter: blur(10px); display: none; align-items: flex-end; justify-content: center; }
+    .overlay.open { display: flex; }
+    @media (min-width: 640px) { .overlay { align-items: center; padding: 24px; } }
+    .sheet {
+      width: 100%; max-width: 480px; background: var(--bone); color: var(--ink); border-radius: 10px 10px 0 0;
+      padding: 28px 24px calc(28px + env(safe-area-inset-bottom)); animation: rise .4s var(--ease);
+    }
+    @media (min-width: 640px) { .sheet { border-radius: 10px; padding: 36px; } }
+    @keyframes rise { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .sheet-head { display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 16px; font-size: 13px; color: #3b3e38; }
+    .meta span { display: inline-flex; align-items: center; gap: 7px; }
+    .meta svg { width: 16px; height: 16px; flex: none; }
+    .founder { font-size: 14px; line-height: 1.5; color: #3b3e38; margin-bottom: 18px; }
+    .founder b { font-weight: 400; color: var(--ink); }
+    .includes { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(11,13,11,.12); }
+    .includes li { font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .includes li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); flex: none; }
+    .sheet .cap { color: #6b6e68; }
+    .sheet h3 { font-weight: 400; text-transform: uppercase; letter-spacing: -.03em; line-height: .9; font-size: clamp(40px, 9vw, 60px); margin-top: 8px; }
+    .x { background: none; border: 0; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; margin: -8px -8px 0 0; color: inherit; }
+    .x svg { width: 20px; height: 20px; }
+    .field { margin-bottom: 12px; }
+    .field input {
+      width: 100%; font: inherit; font-size: 17px; padding: 16px 0; border: 0; border-bottom: 1.5px solid var(--ink); border-radius: 0;
+      background: transparent; color: inherit; -webkit-appearance: none; appearance: none;
+    }
+    .field input::placeholder { color: #8e918b; }
+    .field input:focus { outline: none; box-shadow: 0 1.5px 0 0 var(--ink); }
+    .btn {
+      width: 100%; font: inherit; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; padding: 20px; border-radius: 4px;
+      border: 1.5px solid var(--ink); cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      transition: transform .15s, background .2s, color .2s; -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn:disabled { opacity: .5; cursor: wait; }
+    .btn-solid { background: var(--ink); color: var(--bone); margin-top: 22px; }
+    .btn-solid:hover { background: var(--volt); color: var(--ink); border-color: var(--volt); }
+    .btn-line { background: transparent; color: var(--ink); margin-top: 10px; }
+    .btn-line:hover { background: var(--ink); color: var(--bone); }
+    .fine { margin-top: 16px; font-size: 12px; color: #6b6e68; line-height: 1.55; text-align: center; }
+    .done { text-align: center; padding: 10px 0 4px; }
+    .done .check { width: 60px; height: 60px; border-radius: 50%; background: var(--ink); color: var(--volt); display: grid; place-items: center; margin: 0 auto 18px; }
+    .done .check svg { width: 26px; height: 26px; }
+    .done p { color: #6b6e68; margin: 10px 0 22px; }
+
+    @media (prefers-reduced-motion: reduce) { .hero::after, .hero .sweep { display: none; } .hero img { animation-duration: 40s; } }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img src="hero-ponte.jpg" alt="" fetchpriority="high" />
+    <div class="sweep"></div>
+
+    <div class="hero-text">
+      <h1>
+        <span>Uma</span>
+        <span>volta</span>
+        <span class="ital">por hora</span>
+      </h1>
+      <p class="date cap">Primavera 2027</p>
+    </div>
+  </section>
+
+  <!-- ENTRIES -->
+  <section class="entries" id="inscricoes">
+    <h2>Uma corrida de 24 horas com o formato de backyard, 6,7 km a cada hora até chegares ao teu limite.</h2>
+    <p class="intro">Se tiveres interesse em desafiar os teus limites, podes já garantir o teu lugar como <b>fundador</b>! Se não tiveres a certeza, deixa o teu e-mail para te darmos mais informações.</p>
+
+    <div class="cards">
+      <button class="card" data-type="individual">
+        <div class="card-top"><span class="cap dim">Individual</span><span class="cap slots">10 lugares</span></div>
+        <h3>Solo</h3>
+        <div class="bottom">
+          <span class="price">60€</span>
+          <s class="was">70€</s>
+        </div>
+      </button>
+
+      <button class="card" data-type="team">
+        <div class="card-top"><span class="cap dim">4 pessoas</span><span class="cap slots">5 equipas</span></div>
+        <h3>Equipa</h3>
+        <div class="bottom">
+          <span class="price">170€</span>
+          <s class="was">240€</s>
+        </div>
+      </button>
+    </div>
+
+    <p class="note">Se por algum motivo a prova não se realizar, o valor é reembolsado na totalidade.</p>
+  </section>
+
+  <footer class="cap">
+    <span>Kudos</span>
+    <a href="mailto:ola@24kudos.com">ola@24kudos.com</a>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet">
+      <div id="step-form">
+        <div class="sheet-head">
+          <div>
+            <div class="cap" id="sheet-kicker"></div>
+            <h3 id="sheet-title"></h3>
+          </div>
+          <button class="x" id="close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Lisboa</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>A anunciar · Primavera 2027</span>
+        </div>
+        <p class="founder"><b id="sheet-slots"></b> Se fizeres a reserva, estás entre os primeiros a dar força a esta iniciativa e vais ser considerado um fundador :)</p>
+        <ul class="includes">
+          <li>Kit do atleta</li>
+          <li>Prémio para finalistas</li>
+          <li>Cronometragem</li>
+          <li>Seguro</li>
+          <li>Livestream</li>
+        </ul>
+        <div id="step-choose">
+          <button type="button" class="btn btn-solid" id="btn-pay"><span>Reservar</span><span id="price"></span></button>
+          <button type="button" class="btn btn-line" id="btn-notify"><span>Só quero ser avisado</span><span>→</span></button>
+          <p class="fine">Apenas para maiores de 18 anos. Pagamento seguro via Stripe. Se por algum motivo a prova não se realizar, o valor é reembolsado na totalidade.</p>
+        </div>
+        <form id="form-notify" novalidate style="display:none">
+          <div class="field"><input type="email" id="email" name="email" placeholder="O teu e-mail" required autocomplete="email" inputmode="email" /></div>
+          <div class="field" id="team-field" style="display:none"><input type="text" id="team" name="team" placeholder="Nome da equipa (opcional)" autocomplete="off" /></div>
+          <!-- honeypot anti-spam -->
+          <input type="text" name="website" id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+          <button type="submit" class="btn btn-solid" id="btn-send"><span>Quero ser avisado</span><span>→</span></button>
+          <button type="button" class="btn btn-line" id="btn-back"><span>Voltar</span><span>←</span></button>
+          <p class="fine" id="form-error" style="display:none;color:#b3261e"></p>
+        </form>
+      </div>
+      <div id="step-done" class="done" style="display:none">
+        <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
+        <h3 id="done-title">Estás dentro.</h3>
+        <p id="done-text">Avisamos-te assim que houver novidades.</p>
+        <button class="btn btn-line" id="done-close"><span>Fechar</span><span>×</span></button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // ====== CONFIGURA AQUI ======
+    const CONFIG = {
+      // Supabase (a anon key é pública por design — a segurança vem das políticas RLS, ver supabase/migrations)
+      supabaseUrl: "https://exxqaluncgpzbopeikdh.supabase.co",
+      supabaseAnonKey: "sb_publishable_vxKOlEHNuY4ergTKLGWHwg_ZbgTzltC",
+      // Stripe Payment Links (checkout alojado pela Stripe — nenhum dado de cartão passa por este site)
+      payLinks: {
+        individual: "https://buy.stripe.com/9B67sMd01fXK7Pq8r59ws02",
+        team: "https://buy.stripe.com/3cIbJ2bVX3aY2v65eT9ws03",
+      },
+      prices: { individual: "60€", team: "170€" },
+      titles: { individual: "Solo", team: "Equipa" },
+      kickers: { individual: "Individual", team: "4 pessoas" },
+      slots: { individual: "Apenas 10 lugares.", team: "Apenas 5 equipas." },
+    };
+    // ============================
+
+    const supabase = createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey, { auth: { persistSession: false } });
+
+    // Parallax suave no scroll
+    const heroImg = document.querySelector(".hero img");
+    window.addEventListener("scroll", () => heroImg.style.setProperty("--py", (window.scrollY * 0.25) + "px"), { passive: true });
+
+    const $ = (s) => document.querySelector(s);
+    const overlay = $("#overlay"), formNotify = $("#form-notify");
+    let currentType = "individual";
+
+    function show(step) {
+      $("#step-choose").style.display = step === "choose" ? "block" : "none";
+      formNotify.style.display = step === "notify" ? "block" : "none";
+      $("#step-form").style.display = step === "done" ? "none" : "block";
+      $("#step-done").style.display = step === "done" ? "block" : "none";
+    }
+
+    function openSheet(type) {
+      currentType = type;
+      $("#sheet-kicker").textContent = CONFIG.kickers[type];
+      $("#sheet-title").textContent = CONFIG.titles[type];
+      $("#sheet-slots").textContent = CONFIG.slots[type];
+      $("#price").textContent = CONFIG.prices[type];
+      $("#team-field").style.display = type === "team" ? "block" : "none";
+      $("#form-error").style.display = "none";
+      show("choose");
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeSheet() { overlay.classList.remove("open"); document.body.style.overflow = ""; }
+
+    const qs = new URLSearchParams(location.search);
+    const context = {
+      source: qs.get("utm_source") || null,
+      utm_campaign: qs.get("utm_campaign") || null,
+      utm_medium: qs.get("utm_medium") || null,
+      referrer: document.referrer ? document.referrer.slice(0, 300) : null,
+      user_agent: navigator.userAgent.slice(0, 300),
+      locale: navigator.language || null,
+    };
+    async function saveLead(payload) {
+      const { error } = await supabase.from("leads").insert({ ...payload, ...context });
+      if (error) throw error;
+    }
+
+    document.querySelectorAll(".card").forEach((b) => b.addEventListener("click", () => openSheet(b.dataset.type)));
+    $("#close").addEventListener("click", closeSheet);
+    $("#done-close").addEventListener("click", closeSheet);
+    overlay.addEventListener("click", (e) => e.target === overlay && closeSheet());
+    document.addEventListener("keydown", (e) => e.key === "Escape" && closeSheet());
+
+    // RESERVAR → regista a intenção e vai para o checkout seguro da Stripe
+    $("#btn-pay").addEventListener("click", async () => {
+      const btn = $("#btn-pay"); btn.disabled = true;
+      const reference = `${currentType}-${crypto.randomUUID()}`;
+      try { await saveLead({ type: currentType, intent: "pay_click", reference }); } catch (_) {}
+      const url = new URL(CONFIG.payLinks[currentType]);
+      url.searchParams.set("client_reference_id", reference);
+      window.location.href = url.toString();
+    });
+
+    // SÓ QUERO SER AVISADO → mostra o e-mail
+    $("#btn-notify").addEventListener("click", () => {
+      show("notify");
+      setTimeout(() => $("#email").focus({ preventScroll: true }), 80);
+    });
+    $("#btn-back").addEventListener("click", () => show("choose"));
+
+    formNotify.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const emailEl = $("#email"), err = $("#form-error");
+      if ($("#hp").value) return; // bot
+      if (!emailEl.checkValidity()) { emailEl.reportValidity(); return; }
+      const btn = $("#btn-send"); btn.disabled = true; err.style.display = "none";
+      try {
+        await saveLead({
+          type: currentType,
+          intent: "notify",
+          email: emailEl.value.trim().toLowerCase(),
+          team_name: currentType === "team" ? ($("#team").value.trim() || null) : null,
+        });
+        $("#done-title").textContent = "Estás dentro.";
+        $("#done-text").textContent = "Avisamos-te assim que houver novidades.";
+        show("done");
+        formNotify.reset();
+      } catch (ex) {
+        err.textContent = "Não foi possível guardar. Tenta outra vez.";
+        err.style.display = "block";
+      } finally { btn.disabled = false; }
+    });
+
+    // Regresso da Stripe (success_url = https://teusite/?reservado=individual|team)
+    const params = new URLSearchParams(location.search);
+    const reserved = params.get("reservado");
+    if (reserved && CONFIG.titles[reserved]) {
+      currentType = reserved;
+      openSheet(reserved);
+      $("#done-title").textContent = "Lugar reservado.";
+      $("#done-text").textContent = "Obrigado, fundador. Vais receber um e-mail de confirmação da Stripe.";
+      show("done");
+      history.replaceState({}, "", location.pathname);
+    }
+  </script>
+</body>
+</html>

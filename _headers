@@ -1,0 +1,8 @@
+# Headers de segurança (Netlify / Cloudflare Pages)
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(self "https://buy.stripe.com")
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://esm.sh; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co https://esm.sh; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buy.stripe.com; upgrade-insecure-requests
