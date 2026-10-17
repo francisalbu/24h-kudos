@@ -17,6 +17,45 @@ const supabase = createClient(
 
 const CAPACITY: Record<string, number> = { individual: 10, team: 5 };
 
+// ---------- E-mail de confirmação (Resend) ----------
+const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
+const MAIL_FROM = Deno.env.get("MAIL_FROM") ?? "Kudos <ola@24kudos.com>";
+const MAIL_BCC = Deno.env.get("MAIL_BCC"); // opcional: recebes cópia de cada inscrição
+
+async function sendConfirmation(opts: { to: string; name: string | null; type: "individual" | "team"; amount: number; receipt: string | null }) {
+  if (!RESEND_KEY) { console.warn("RESEND_API_KEY em falta — e-mail não enviado"); return; }
+  const first = (opts.name ?? "").trim().split(/\s+/)[0] || "";
+  const label = opts.type === "team" ? "Equipa (4 pessoas)" : "Solo";
+  const eur = (opts.amount / 100).toFixed(0) + "€";
+  const html = `
+  <div style="font-family:Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;background:#0b0d0b;color:#f1f0ea;padding:40px 32px;border-radius:12px">
+    <p style="margin:0 0 28px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b8ff5c">Kudos · Uma volta por hora</p>
+    <h1 style="margin:0 0 18px;font-size:30px;line-height:1.1;font-weight:700">Inscrição recebida${first ? ", " + first : ""}.</h1>
+    <p style="margin:0 0 14px;font-size:16px;line-height:1.55;color:rgba(241,240,234,.8)">Obrigado por seres um dos primeiros a dar força a esta iniciativa. A partir de agora és oficialmente <b style="color:#b8ff5c;font-weight:400">fundador</b> da Kudos.</p>
+    <p style="margin:0 0 26px;font-size:16px;line-height:1.55;color:rgba(241,240,234,.8)">Vamos entrar em contacto contigo em breve com todos os detalhes — data, local e tudo o que precisas de saber para a prova.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:26px">
+      <tr><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);color:rgba(241,240,234,.6)">Modalidade</td><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);text-align:right">${label}</td></tr>
+      <tr><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);color:rgba(241,240,234,.6)">Valor</td><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);text-align:right">${eur}</td></tr>
+      <tr><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);border-bottom:1px solid rgba(241,240,234,.12);color:rgba(241,240,234,.6)">Local · Data</td><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);border-bottom:1px solid rgba(241,240,234,.12);text-align:right">Lisboa · Primavera 2027</td></tr>
+    </table>
+    ${opts.receipt ? `<p style="margin:0 0 26px;font-size:13px"><a href="${opts.receipt}" style="color:#b8ff5c">Ver recibo do pagamento →</a></p>` : ""}
+    <p style="margin:0;font-size:12px;line-height:1.6;color:rgba(241,240,234,.5)">Se por algum motivo a prova não se realizar, o valor é reembolsado na totalidade. Dúvidas? Responde a este e-mail.</p>
+  </div>`;
+  const text = `Inscrição recebida${first ? ", " + first : ""}.\n\nObrigado por seres um dos primeiros a dar força à Kudos — és oficialmente fundador.\nVamos entrar em contacto em breve com todos os detalhes (data, local, etc.).\n\nModalidade: ${label}\nValor: ${eur}\nLocal · Data: Lisboa · Primavera 2027\n${opts.receipt ? "Recibo: " + opts.receipt + "\n" : ""}\nSe a prova não se realizar, o valor é reembolsado na totalidade.`;
+
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${RESEND_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: MAIL_FROM, to: [opts.to], ...(MAIL_BCC ? { bcc: [MAIL_BCC] } : {}),
+      reply_to: "ola@24kudos.com",
+      subject: "Inscrição recebida — Kudos 24h",
+      html, text,
+    }),
+  });
+  if (!r.ok) console.error("Resend error", r.status, await r.text());
+}
+
 function typeFromSession(s: Stripe.Checkout.Session): "individual" | "team" | null {
   const ref = s.client_reference_id ?? "";
   if (ref.startsWith("team")) return "team";
@@ -76,9 +115,12 @@ Deno.serve(async (req) => {
           .eq("type", type).eq("status", "paid");
         if ((count ?? 0) >= CAPACITY[type]) console.warn(`Capacity exceeded for ${type}`, s.id);
 
+        const email = (s.customer_details?.email ?? s.customer_email ?? "").toLowerCase();
+        const { data: existing } = await supabase.from("reservations").select("id").eq("stripe_session_id", s.id).maybeSingle();
+
         const { error } = await supabase.from("reservations").upsert({
           type,
-          email: (s.customer_details?.email ?? s.customer_email ?? "").toLowerCase(),
+          email,
           name: s.customer_details?.name ?? null,
           phone: s.customer_details?.phone ?? null,
           amount_cents: s.amount_total ?? 0,
@@ -94,6 +136,10 @@ Deno.serve(async (req) => {
           status: "paid",
         }, { onConflict: "stripe_session_id" });
         if (error) throw error;
+
+        if (!existing && email) {
+          await sendConfirmation({ to: email, name: s.customer_details?.name ?? null, type, amount: s.amount_total ?? 0, receipt: receipt_url });
+        }
         break;
       }
 
