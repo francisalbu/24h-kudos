@@ -210,6 +210,17 @@
     }
     .field input::placeholder { color: rgba(241,240,234,.45); }
     .field input:focus { outline: none; border-bottom-color: var(--volt); }
+    .months { border: 0; margin: 18px 0 4px; }
+    .months legend { color: var(--mute); margin-bottom: 10px; }
+    .chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .chip input { position: absolute; opacity: 0; pointer-events: none; }
+    .chip span {
+      display: block; text-align: center; padding: 13px 10px; border-radius: 999px; border: 1px solid rgba(241,240,234,.3); color: var(--bone);
+      font-size: 13px; cursor: pointer; transition: background .2s, border-color .2s, color .2s; -webkit-tap-highlight-color: transparent;
+    }
+    .chip:hover span { border-color: var(--bone); }
+    .chip input:checked + span { background: var(--volt); border-color: var(--volt); color: var(--ink); }
+    .chip input:focus-visible + span { outline: 2px solid var(--volt); outline-offset: 2px; }
     .btn {
       width: 100%; font: inherit; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; padding: 17px 22px; border-radius: 999px;
       border: 1px solid transparent; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
@@ -382,6 +393,14 @@
         <form id="form-notify" novalidate style="display:none">
           <div class="field"><input type="email" id="email" name="email" placeholder="O teu e-mail" required autocomplete="email" inputmode="email" /></div>
           <div class="field" id="team-field" style="display:none"><input type="text" id="team" name="team" placeholder="Nome da equipa (opcional)" autocomplete="off" /></div>
+          <fieldset class="months">
+            <legend class="cap">Que mês preferes?</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="month" value="marco" /><span>Março</span></label>
+              <label class="chip"><input type="radio" name="month" value="abril" /><span>Abril</span></label>
+              <label class="chip"><input type="radio" name="month" value="maio" /><span>Maio</span></label>
+            </div>
+          </fieldset>
           <!-- honeypot anti-spam -->
           <input type="text" name="website" id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
           <button type="submit" class="btn btn-solid" id="btn-send"><span>Quero ser avisado</span><span>→</span></button>
@@ -508,6 +527,7 @@
           intent: "notify",
           email: emailEl.value.trim().toLowerCase(),
           team_name: currentType === "team" ? ($("#team").value.trim() || null) : null,
+          preferred_month: formNotify.querySelector('input[name="month"]:checked')?.value || null,
         });
         $("#done-title").textContent = "Estás dentro.";
         $("#done-text").textContent = "Avisamos-te assim que houver novidades.";
