@@ -39,9 +39,9 @@ async function sendConfirmation(opts: { to: string; name: string | null; type: "
       <tr><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);border-bottom:1px solid rgba(241,240,234,.12);color:rgba(241,240,234,.6)">Local · Data</td><td style="padding:10px 0;border-top:1px solid rgba(241,240,234,.12);border-bottom:1px solid rgba(241,240,234,.12);text-align:right">Lisboa · Primavera 2027</td></tr>
     </table>
     ${opts.receipt ? `<p style="margin:0 0 26px;font-size:13px"><a href="${opts.receipt}" style="color:#b8ff5c">Ver recibo do pagamento →</a></p>` : ""}
-    <p style="margin:0;font-size:12px;line-height:1.6;color:rgba(241,240,234,.5)">Se por algum motivo a prova não se realizar, o valor é reembolsado na totalidade. Dúvidas? Responde a este e-mail.</p>
+    <p style="margin:0;font-size:12px;line-height:1.6;color:rgba(241,240,234,.5)"><b style="color:#f1f0ea;font-weight:400">100% reembolsável:</b> se por algum motivo a prova não se realizar, devolvemos o valor na totalidade. Dúvidas? Responde a este e-mail.</p>
   </div>`;
-  const text = `Inscrição recebida${first ? ", " + first : ""}.\n\nObrigado por seres um dos primeiros a dar força à Kudos — és oficialmente fundador.\nVamos entrar em contacto em breve com todos os detalhes (data, local, etc.).\n\nModalidade: ${label}\nValor: ${eur}\nLocal · Data: Lisboa · Primavera 2027\n${opts.receipt ? "Recibo: " + opts.receipt + "\n" : ""}\nSe a prova não se realizar, o valor é reembolsado na totalidade.`;
+  const text = `Inscrição recebida${first ? ", " + first : ""}.\n\nObrigado por seres um dos primeiros a dar força à Kudos — és oficialmente fundador.\nVamos entrar em contacto em breve com todos os detalhes (data, local, etc.).\n\nModalidade: ${label}\nValor: ${eur}\nLocal · Data: Lisboa · Primavera 2027\n${opts.receipt ? "Recibo: " + opts.receipt + "\n" : ""}\n100% reembolsável: se a prova não se realizar, devolvemos o valor na totalidade.`;
 
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
